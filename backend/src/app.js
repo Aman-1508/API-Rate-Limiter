@@ -3,6 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 
 app.use(express.json());
@@ -16,5 +18,7 @@ app.get("/", (req, res) => {
         message: "Distributed Rate Limiter API"
     });
 });
+
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
