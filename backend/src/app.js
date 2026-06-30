@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 
 const authRoutes = require("./routes/authRoutes");
-
+const redisRoutes = require("./routes/redisRoutes");
 const app = express();
 
 app.use(express.json());
@@ -20,5 +20,5 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/redis", redisRoutes);
 module.exports = app;
