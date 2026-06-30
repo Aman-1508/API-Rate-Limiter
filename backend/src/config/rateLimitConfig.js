@@ -1,6 +1,6 @@
 const rateLimitConfig = {
 
-    algorithm: "fixed",
+    algorithm: "sliding",
 
     plans: {
 
