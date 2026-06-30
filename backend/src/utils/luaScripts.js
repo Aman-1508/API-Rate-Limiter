@@ -1,11 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 
-const rateLimiterScript = fs.readFileSync(
-    path.join(__dirname, "../lua/rateLimiter.lua"),
+const fixedWindowScript = fs.readFileSync(
+    path.join(__dirname, "../lua/fixedWindow.lua"),
+    "utf8"
+);
+
+const slidingWindowScript = fs.readFileSync(
+    path.join(__dirname, "../lua/slidingWindow.lua"),
     "utf8"
 );
 
 module.exports = {
-    rateLimiterScript,
+    fixedWindowScript,
+    slidingWindowScript,
 };

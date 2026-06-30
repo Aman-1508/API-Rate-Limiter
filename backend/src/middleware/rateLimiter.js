@@ -1,51 +1,22 @@
-const client = require("../config/redis");
-const { rateLimiterScript } = require("../utils/luaScripts");
-const rateLimits = require("../config/rateLimitConfig");
+const algorithms = require("../services/rateLimiter");
+const rateLimitConfig = require("../config/rateLimitConfig");
 
 const rateLimiter = async (req, res, next) => {
+
     try {
 
-        const userPlan = req.user.plan || "free";
+        const algorithm = rateLimitConfig.algorithm;
 
-        if (userPlan === "admin") {
-            return next();
-        }
+        const handler = algorithms[algorithm];
 
-        const {
-            limit: LIMIT,
-            window: WINDOW,
-        } = rateLimits[userPlan];
-
-        const key = `rate_limit:${req.user.id}`;
-
-        const result = await client.eval(rateLimiterScript, {
-            keys: [key],
-            arguments: [
-                WINDOW.toString(),
-                LIMIT.toString()
-            ],
-        });
-
-        const allowed = Boolean(Number(result[0]));
-        const requestCount = Number(result[1]);
-        const remaining = Number(result[2]);
-        const ttl = Number(result[3]);
-
-        res.set({
-            "X-RateLimit-Limit": LIMIT,
-            "X-RateLimit-Remaining": remaining,
-            "X-RateLimit-Reset": ttl,
-        });
-
-        if (!allowed) {
-            return res.status(429).json({
+        if (!handler) {
+            return res.status(500).json({
                 success: false,
-                message: "Too Many Requests",
-                retryAfter: ttl,
+                message: "Unknown Rate Limiter",
             });
         }
 
-        next();
+        return handler(req, res, next);
 
     } catch (error) {
 
@@ -57,6 +28,7 @@ const rateLimiter = async (req, res, next) => {
         });
 
     }
+
 };
 
 module.exports = rateLimiter;

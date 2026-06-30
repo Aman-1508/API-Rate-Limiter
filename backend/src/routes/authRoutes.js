@@ -9,6 +9,9 @@ const {
 
 const authenticate = require("../middleware/authMiddleware");
 const rateLimiter = require("../middleware/rateLimiter");
+const slidingWindowLimiter =
+    require("../middleware/slidingWindowLimiter");
+
 
 router.post("/register", register);
 
@@ -20,11 +23,11 @@ router.get(
     rateLimiter,
     (req, res) => {
 
-        res.status(200).json({
+        res.json({
             success: true,
-            message: "Protected Route Accessed",
             user: req.user
         });
+
 
     }
 );
