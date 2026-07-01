@@ -7,11 +7,8 @@ const {
     login,
 } = require("../controllers/authController");
 
-const authenticate = require("../middleware/authMiddleware");
+const authenticate = require("../middleware/authenticate");
 const rateLimiter = require("../middleware/rateLimiter");
-const slidingWindowLimiter =
-    require("../middleware/slidingWindowLimiter");
-
 
 router.post("/register", register);
 
