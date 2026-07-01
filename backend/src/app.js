@@ -18,7 +18,13 @@ app.get("/", (req, res) => {
         message: "Distributed Rate Limiter API"
     });
 });
-
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        success: true,
+        status: "UP",
+        timestamp: new Date().toISOString(),
+    });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/keys", apiKeyRoutes);
 module.exports = app;
