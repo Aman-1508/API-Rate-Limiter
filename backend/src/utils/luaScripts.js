@@ -11,7 +11,13 @@ const slidingWindowScript = fs.readFileSync(
     "utf8"
 );
 
+const tokenBucketScript = fs.readFileSync(
+    path.join(__dirname, "../lua/tokenBucket.lua"),
+    "utf8"
+);
+
 module.exports = {
     fixedWindowScript,
     slidingWindowScript,
+    tokenBucketScript
 };

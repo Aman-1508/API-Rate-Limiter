@@ -1,22 +1,69 @@
 const rateLimitConfig = {
 
-    algorithm: "sliding",
+    // Change this to switch algorithms
+    algorithm: "tokenBucket",
+    // fixed | sliding | tokenBucket
 
     plans: {
 
         free: {
-            limit: 10,
-            window: 60,
+
+            fixed: {
+                limit: 10,
+                window: 60,
+            },
+
+            sliding: {
+                limit: 10,
+                window: 60,
+            },
+
+            tokenBucket: {
+                capacity: 10,
+                refillRate: 10 / 60, 
+                ttl: 120,
+            },
+
         },
 
         premium: {
-            limit: 100,
-            window: 60,
+
+            fixed: {
+                limit: 100,
+                window: 60,
+            },
+
+            sliding: {
+                limit: 100,
+                window: 60,
+            },
+
+            tokenBucket: {
+                capacity: 100,
+                refillRate: 100 / 60,
+                ttl: 120,
+            },
+
         },
 
         admin: {
-            limit: Number.MAX_SAFE_INTEGER,
-            window: 60,
+
+            fixed: {
+                limit: Number.MAX_SAFE_INTEGER,
+                window: 60,
+            },
+
+            sliding: {
+                limit: Number.MAX_SAFE_INTEGER,
+                window: 60,
+            },
+
+            tokenBucket: {
+                capacity: Number.MAX_SAFE_INTEGER,
+                refillRate: Number.MAX_SAFE_INTEGER,
+                ttl: 120,
+            },
+
         }
 
     }

@@ -1,9 +1,9 @@
 const fixedWindow = require("./fixedWindow");
 const slidingWindow = require("./slidingWindow");
+const tokenBucket = require("./tokenBucket");
 
-const algorithms = {
+module.exports = {
     fixed: fixedWindow,
     sliding: slidingWindow,
+    tokenBucket: tokenBucket,
 };
-
-module.exports = algorithms;

@@ -15,7 +15,7 @@ const fixedWindowLimiter = async (req, res, next) => {
         const {
             limit: LIMIT,
             window: WINDOW,
-        } = rateLimitConfig.plans[userPlan];
+        } = rateLimitConfig.plans[userPlan].fixed;
 
         const key = `rate_limit:${req.user.id}`;
 

@@ -16,7 +16,7 @@ const slidingWindow = async (req, res, next) => {
         const {
             limit: LIMIT,
             window: WINDOW,
-        } = rateLimitConfig.plans[userPlan];
+        } = rateLimitConfig.plans[userPlan].sliding;
 
         const key = `sliding_rate:${req.user.id}`;
 
