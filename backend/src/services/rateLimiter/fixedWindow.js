@@ -1,4 +1,4 @@
-const client = require("../../config/redis");
+const {client} = require("../../config/redis");
 const { fixedWindowScript } = require("../../utils/luaScripts");
 const rateLimitConfig = require("../../config/rateLimitConfig");
 
