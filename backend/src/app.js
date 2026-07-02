@@ -15,9 +15,16 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
     res.json({
         success: true,
-        message: "Distributed Rate Limiter API"
+        service: "Distributed API Rate Limiter",
+        version: "1.0.0",
+        status: "UP",
+        endpoints: {
+            auth: "/api/auth",
+            apiKeys: "/api/keys"
+        }
     });
 });
+
 app.get("/health", (req, res) => {
     res.status(200).json({
         success: true,
