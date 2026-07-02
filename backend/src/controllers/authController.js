@@ -4,30 +4,34 @@ const pool = require("../config/db");
 
 const register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { email, password } = req.body;
 
-        if (!name || !email || !password) {
+        if (!email || !password) {
             return res.status(400).json({
                 success: false,
-                message: "All fields are required"
+                message: "Email and password are required"
             });
         }
+
         const existingUser = await pool.query(
             "SELECT * FROM users WHERE email = $1",
             [email]
         );
+
         if (existingUser.rowCount > 0) {
             return res.status(409).json({
                 success: false,
                 message: "Email already exists"
             });
         }
+
         const hashedPassword = await bcrypt.hash(password, 10);
+
         const newUser = await pool.query(
-            `INSERT INTO users(name, email, password)
-            VALUES($1, $2, $3)
-            RETURNING id, name, email, plan, created_at`,
-            [name, email, hashedPassword]
+            `INSERT INTO users(email, password)
+             VALUES($1, $2)
+             RETURNING id, email, plan, created_at`,
+            [email, hashedPassword]
         );
 
         return res.status(201).json({
@@ -35,6 +39,7 @@ const register = async (req, res) => {
             message: "User registered successfully",
             user: newUser.rows[0]
         });
+
     } catch (error) {
 
         console.error(error);
